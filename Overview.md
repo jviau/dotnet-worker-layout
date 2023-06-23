@@ -233,6 +233,7 @@ This has not been added yet, still evaluating. This system allows us to centrall
 
 - Every project has its own dedicated unit test project.
   - `[InternalsVisibleTo]` automatically added for Moq and the respective source project.
+- All `dirs.proj` under `src/` will also include test projects. Test projects can be ignored via `-p:SkipTests=true`
 - All unit tests will be ran on all platforms / OS. We will use [Xunit.SkippableFact](https://github.com/AArnott/Xunit.SkippableFact) to opt out tests at runtime if the platform is not supported:
   ``` CSharp
     [SkippableFact]
@@ -244,6 +245,15 @@ This has not been added yet, still evaluating. This system allows us to centrall
         // Test code. Runs only if on windows.
     }
   ```
+
+### Custom Tooling
+
+When we need custom tools or commands, we can use dotnet tools instead of scripts. With this, we can:
+
+1. Write all our tools in C# (which we are familiar with)
+2. Make it feel natural by adding new verbs to `dotnet` cli.
+   1. See [./eng/tools/ExampleTool/ExampleToo.csproj]. By using `<ToolCommandName>dotnet-example-tool</ToolCommandName>`, and installing the tool locally, we then get the ability to invoke `dotnet example-tool` while within this folder structure.
+3. These can be delivered via nuget when/if we want to share these with other repos.
 
 ## Other
 

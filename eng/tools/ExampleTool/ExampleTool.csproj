@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackAsTool>true</PackAsTool>
-    <ToolCommandName>dotnet-release</ToolCommandName>
+    <ToolCommandName>dotnet-example-tool</ToolCommandName>
   </PropertyGroup>
 
 </Project>
