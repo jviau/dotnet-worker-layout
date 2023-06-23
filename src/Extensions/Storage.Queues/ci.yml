@@ -1,0 +1,24 @@
+trigger:
+  branches:
+    include:
+    - main
+    - release/*
+    - feature/*
+  paths:
+    include:
+    - src/extensions/Worker.Extensions.Storage.Queues/
+
+pr:
+  branches:
+    include:
+    - main
+    - release/*
+    - feature/*
+  paths:
+    include:
+    - src/extensions/Worker.Extensions.Storage.Queues/
+
+extends:
+  template: ../../../eng/ci/templates/extensions-ci.yml
+  parameters:
+    ExtensionDirectory: src/extensions/Worker.Extensions.Storage.Queues

@@ -1,0 +1,15 @@
+pr:
+  autoCancel: true
+  branches:
+   include:
+    - main
+    - release/*
+    - feature/*
+  paths:
+    exclude:
+    - .config/
+    - .github/
+    - .vscode/
+    - doc/
+    - README.md
+    - release_notes.md

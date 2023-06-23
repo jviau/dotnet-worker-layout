@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="$(SrcRoot)Extensions/EventHubs/src/Worker.Extensions.EventHubs.csproj" />
+  </ItemGroup>
+
+</Project>

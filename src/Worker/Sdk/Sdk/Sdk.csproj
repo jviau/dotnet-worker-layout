@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+        <ProjectReference Include="../Analyzers/Sdk.Analyzers.csproj" />
+        <ProjectReference Include="../Generators/Sdk.Generators.csproj" />
+    </ItemGroup>
+
+</Project>

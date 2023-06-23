@@ -1,0 +1,20 @@
+<Project>
+
+  <PropertyGroup>
+    <TargetFramework>net45</TargetFramework>
+  </PropertyGroup>
+
+  <!-- Given a dirs.proj within the src/ directory, will also include the corresponding test projects in the test/ directory -->
+  <PropertyGroup Condition="'$(IsTestProject)' != 'true'">
+    <TestFolder>$([MSBuild]::MakeRelative('$(SrcRoot)', '$(MSBuildProjectDirectory)'))</TestFolder>
+    <TestFolder Condition="'$(TestFolder)' == '.'"></TestFolder>
+    <TestFolder Condition="'$(TestFolder)' != ''">$([MSBuild]::EnsureTrailingSlash('$(TestFolder)'))</TestFolder>
+    <TestFolder>$(TestRoot)$(TestFolder)</TestFolder>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="**/*.csproj" />
+    <ProjectReference Include="$(TestFolder)**/*.csproj" Condition="'$(IsTestProject)' != 'true' AND '$(SkipTests)' != 'true'"/>
+  </ItemGroup>
+
+</Project>

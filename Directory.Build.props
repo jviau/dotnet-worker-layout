@@ -1,0 +1,61 @@
+<Project>
+
+  <!-- Common build settings -->
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <NoWarn>$(NoWarn);CS8002</NoWarn>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+  <!-- Assembly name and namespace -->
+  <PropertyGroup>
+    <TopLevelNamespace Condition="'$(TopLevelNamespace)' == ''">Microsoft.Azure.Functions</TopLevelNamespace>
+    <AssemblyName>$(TopLevelNamespace).$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace Condition="'$(RootNamespace)' == ''">$(AssemblyName)</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+    <Platform Condition="'$(Platform)' == ''">AnyCPU</Platform>
+    <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
+    <OutRoot>$(RepoRoot)$([MSBuild]::EnsureTrailingSlash(out/$(SubOutRoot)))</OutRoot>
+    <EngRoot>$(RepoRoot)eng/</EngRoot>
+    <SrcRoot>$(RepoRoot)src/</SrcRoot>
+    <TestRoot>$(RepoRoot)test/</TestRoot>
+    <ProtosRoot>$(RepoRoot)protos/</ProtosRoot>
+    <BaseOutputPath>$(OutRoot)bin/</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(OutRoot)obj/$(MSBuildProjectName)/</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)$(Configuration)/</IntermediateOutputPath>
+    <SubOutputPath Condition="'$(SubOutputPath)' == ''">$(MSBuildProjectName)/</SubOutputPath>
+    <OutputPath>$(BaseOutputPath)$(Configuration)/$([MSBuild]::EnsureTrailingSlash($(SubOutputPath)))</OutputPath>
+    <PackageOutputPath>$(OutRoot)pkg/</PackageOutputPath>
+  </PropertyGroup>
+
+
+  <!-- Language Settings -->
+  <PropertyGroup>
+    <LangVersion>preview</LangVersion>
+    <Nullable Condition="$(Nullable) == ''">enable</Nullable>
+    <ImplicitUsings Condition="'$(ImplicitUsings)' == ''">enable</ImplicitUsings>
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+  </ItemGroup>
+
+  <!-- Signing -->
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(EngRoot)key.snk</AssemblyOriginatorKeyFile>
+    <StrongNamePublicKey>00240000048000009400000006020000002400005253413100040000010001005148be37ac1d9f58bd40a2e472c9d380d635b6048278f7d47480b08c928858f0f7fe17a6e4ce98da0e7a7f0b8c308aecd9e9b02d7e9680a5b5b75ac7773cec096fbbc64aebd429e77cb5f89a569a79b28e9c76426783f624b6b70327eb37341eb498a2c3918af97c4860db6cdca4732787150841e395a29cfacb959c1fd971c1</StrongNamePublicKey>
+  </PropertyGroup>
+
+  <Import Project="$(EngRoot)targets/Release.props" />
+  <Import Project="$(EngRoot)targets/Traversal.props" Condition="'$(UsingMicrosoftTraversalSdk)' == 'true'" />
+
+</Project>

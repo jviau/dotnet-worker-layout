@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="$(SrcRoot)Extensions/CosmosDB/src/Worker.Extensions.CosmosDB.csproj" />
+  </ItemGroup>
+
+</Project>

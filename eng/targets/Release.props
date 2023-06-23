@@ -1,0 +1,57 @@
+<Project>
+
+  <!-- Common NuGet settings -->
+  <PropertyGroup>
+    <Authors>Microsoft</Authors>
+    <Company>Microsoft</Company>
+    <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
+    <RepositoryUrl>https://github.com/Azure/azure-functions-dotnet-worker</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <PackageIconUrl>https://aka.ms/azure-functions-package-icon</PackageIconUrl>
+  </PropertyGroup>
+
+  <!-- Package details files -->
+  <PropertyGroup>
+    <!--
+      For Icon, Readme, and ReleaseNotes there are two properties each:
+      First is the representation on disk: IconFile, ReadmeFile, and ReleaseNotesFile.
+      Second is the representation in the nupkg: PackageIcon, PackageReadmeFile, PackageReleaseNotes
+      This is why there are seemingly redundant properties below, they represent a different stage in
+      the contents of this property during the packaging process.
+      -->
+    <IconFile Condition="'$(IconFile)' == ''">$(MSBuildThisFileDirectory)icon.png</IconFile>
+    <PackageIcon Condition="'$(PackageIcon)' == ''">icon.png</PackageIcon>
+    <ReadmeFile Condition="'$(ReadmeFile)' == ''">README.md</ReadmeFile>
+    <PackageReadmeFile Condition="'$(PackageReadmeFile)' == ''">README.md</PackageReadmeFile>
+    <ReleaseNotesFile Condition="'$(ReleaseNotesFile)' == ''">release_notes.md</ReleaseNotesFile>
+    <!-- PackageReleaseNotes: see Release.targets -->
+  </PropertyGroup>
+
+  <!-- Continuous Integration -->
+  <PropertyGroup>
+    <BuildReason>dev</BuildReason>
+    <BuildReason Condition="'$(BUILD_REASON)' != ''">ci</BuildReason>
+    <BuildReason Condition="'$(BUILD_REASON)' == 'PullRequest'">pr</BuildReason>
+
+    <!-- BUILD_BUILDNUMBER, which is supplied by ADO, should be of format yyyyMMdd.rev -->
+    <!-- This is the default format new ADO pipelines use, so we are going to assume we do not change that. -->
+    <BuildNumber Condition="'$(BUILD_BUILDNUMBER)' != ''">$(BUILD_BUILDNUMBER.Substring(2))</BuildNumber>
+    <BuildNumber Condition="'$(BuildNumber)' == ''">$([System.DateTime]::Now.ToString(yyMMdd)).0</BuildNumber>
+    <ContinuousIntegrationBuild Condition="'$(TF_BUILD)' == 'true'">true</ContinuousIntegrationBuild>
+    <ContinuousIntegrationBuild Condition="'$(ContinuousIntegrationBuild)' == ''">$(CI)</ContinuousIntegrationBuild>
+
+    <!-- Only set release tag if this is a tag, and not a branch. -->
+    <!-- tag must be either 'v{Version}' or {name}-v{Version} for a match -->
+    <ReleaseTag Condition="$([System.Text.RegularExpressions.Regex]::IsMatch($(BUILD_SOURCEBRANCH), `refs/tags/(?:.*-)?v.*`))">$(BUILD_SOURCEBRANCHNAME)</ReleaseTag>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="$(ReadmeFile)" Pack="true" PackagePath="/" Condition="Exists('$(ReadmeFile)')" />
+    <Content Include="$(IconFile)" Pack="true" PackagePath="/" Condition="Exists('$(IconFile)')" Visible="false" />
+  </ItemGroup>
+
+</Project>

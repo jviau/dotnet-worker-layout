@@ -1,0 +1,19 @@
+<Project>
+
+  <PropertyGroup Condition="'$(UsingMicrosoftTraversalSdk)' != 'true'">
+    <IsTestProject Condition="'$(IsTestProject)' == ''">true</IsTestProject>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory)../, $(_DirectoryBuildPropsFile)))/$(_DirectoryBuildPropsFile)"
+    Condition=" '$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory)../, $(_DirectoryBuildPropsFile)))' != '' " />
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <WarnOnPackingNonPackableProject>false</WarnOnPackingNonPackableProject>
+    <TargetFramework Condition="'$(TargetFramework)' == '' AND '$(TargetFrameworks)' == ''">net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <Import Project="$(EngRoot)targets/Test.props" Condition="'$(UsingMicrosoftTraversalSdk)' != 'true'" />
+
+</Project>

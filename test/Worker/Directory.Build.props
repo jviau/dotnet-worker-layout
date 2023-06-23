@@ -1,0 +1,10 @@
+<Project>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory)../, $(_DirectoryBuildPropsFile)))/$(_DirectoryBuildPropsFile)"
+    Condition=" '$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory)../, $(_DirectoryBuildPropsFile)))' != '' " />
+
+  <PropertyGroup>
+    <TargetFrameworks Condition="'$(TargetFramework)' == '' AND '$(TargetFrameworks)' == ''">netstandard2.0;net6.0</TargetFrameworks>
+  </PropertyGroup>
+
+</Project>

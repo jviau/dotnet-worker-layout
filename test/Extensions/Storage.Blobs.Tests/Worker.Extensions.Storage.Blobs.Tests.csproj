@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="$(SrcRoot)Extensions/Storage.Blobs/src/Worker.Extensions.Storage.Blobs.csproj" />
+  </ItemGroup>
+
+</Project>

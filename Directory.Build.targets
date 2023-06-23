@@ -1,0 +1,10 @@
+<Project>
+
+  <PropertyGroup Condition="'$(IsSharedProject)' == 'true'">
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <Import Project="$(EngRoot)targets/InternalsVisibleTo.targets" />
+  <Import Project="$(EngRoot)targets/Release.targets" />
+
+</Project>

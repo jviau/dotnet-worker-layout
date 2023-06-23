@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="$(SrcRoot)Extensions/Rpc/src/Worker.Extensions.Rpc.csproj" />
+  </ItemGroup>
+
+</Project>

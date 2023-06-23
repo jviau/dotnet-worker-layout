@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.Build.NoTargets">
+
+  <!--
+    This project is a way to show miscelaneous files in VS without
+    needing to add them one by one to the sln.
+    TODO: recursive Directory.Build.* files are not included
+  -->
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <IncludeShared>false</IncludeShared>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(RepoRoot).editorconfig" />
+    <None Include="$(RepoRoot).gitignore" />
+    <None Include="$(RepoRoot)Directory.Build.*" />
+    <None Include="$(RepoRoot)global.json" />
+    <None Include="$(RepoRoot)*.md" />
+    <None Include="$(RepoRoot)LICENSE" />
+    <None Include="$(RepoRoot)nuget.config" />
+    <None Include="$(RepoRoot)doc/**" LinkBase="doc" />
+    <None Include="$(EngRoot)**" LinkBase="eng" />
+    <None Include="$(RepoRoot).github/**" LinkBase="github" />
+    <None Include="$(RepoRoot).vscode/**" LinkBase="vscode" />
+  </ItemGroup>
+
+</Project>

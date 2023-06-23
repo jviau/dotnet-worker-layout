@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="$(SrcRoot)Extensions/EventGrid/src/Worker.Extensions.EventGrid.csproj" />
+  </ItemGroup>
+
+</Project>

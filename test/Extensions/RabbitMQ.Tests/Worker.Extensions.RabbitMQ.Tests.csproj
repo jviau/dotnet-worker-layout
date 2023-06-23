@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="$(SrcRoot)Extensions/RabbitMQ/src/Worker.Extensions.RabbitMQ.csproj" />
+  </ItemGroup>
+
+</Project>

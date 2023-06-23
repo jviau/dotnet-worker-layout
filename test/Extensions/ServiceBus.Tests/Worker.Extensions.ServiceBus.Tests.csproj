@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="$(SrcRoot)Extensions/ServiceBus/src/Worker.Extensions.ServiceBus.csproj" />
+  </ItemGroup>
+
+</Project>

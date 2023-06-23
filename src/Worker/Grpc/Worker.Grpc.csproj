@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+    <Description>This library provides gRPC support for Azure Functions .NET Worker communication with the Azure Functions Host.</Description>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.23.3" />
+    <PackageReference Include="Grpc.Tools" Version="2.54.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="Grpc.Core" Version="2.45.0" />
+    <PackageReference Include="System.Threading.Channels" Version="6.0.0" />
+    <Compile Remove="NativeHostIntegration/**" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.0'">
+    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.53.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../Core/Worker.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SharedReference Include="$(SrcRoot)Shared/Channels/Shared.Channels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="$(ProtosRoot)azure-functions-language-worker-protobuf\**\*.proto"
+              ProtoRoot="$(ProtosRoot)azure-functions-language-worker-protobuf\src\proto"
+              GrpcServices="Client"
+              Access="internal" />
+  </ItemGroup>
+
+</Project>
