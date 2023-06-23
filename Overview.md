@@ -255,6 +255,8 @@ When we need custom tools or commands, we can use dotnet tools instead of script
    1. See [./eng/tools/ExampleTool/ExampleToo.csproj]. By using `<ToolCommandName>dotnet-example-tool</ToolCommandName>`, and installing the tool locally, we then get the ability to invoke `dotnet example-tool` while within this folder structure.
 3. These can be delivered via nuget when/if we want to share these with other repos.
 
+This is optional and only if we find it is better than custom scripts. Overall, our custom tooling usage should be minimal. The only one so far would be to simplify release-prep steps.
+
 ## Other
 
 - Deprecate `Microsoft.Azure.Functions.Worker.Extensions.Storage` meta-package? Customers can import Blob and Queues independently. This aligns with track 2 SDKs.
