@@ -19,30 +19,30 @@ Part of this proposal is to adjust the repo structure. The goal behind the repo 
 
 ### Layout from a glance
 
-``` json
+```
 |- doc                  // doc: contains all doc files
 |- eng                  // eng: contains all our engineering related items: common targets, ci templates, signing key
-|  |- ci                // eng/ci: CI build files and templates.
-|  |- targets           // eng/targets: common msbuild .props and .targets and their supporting files.
+   |- ci                // eng/ci: CI build files and templates.
+   |- targets           // eng/targets: common msbuild .props and .targets and their supporting files.
 |- misc                 // misc: this is a special csproj which collects files, leveraging globbing, to show in Visual Studio, without needing to add one by one to sln.
 |- out                  // out: all project output goes here
-|  |- bin               // out/bin: final output
-|  |- obj               // out/obj: intermediate output
-|  |- pkg               // out/pkg: all packages (nuget or otherwise) go here
+   |- bin               // out/bin: final output
+   |- obj               // out/obj: intermediate output
+   |- pkg               // out/pkg: all packages (nuget or otherwise) go here
 |- protos               // protos: proto subdirectory *NOTE*: we should consider consuming these as nuget packages.
 |- samples              // samples: all sample projects.
 |- src                  // src: all source files go here
-|  |- Extensions        // src/Extensions: All worker extensions (including ApplicationInsights)
-|  |- Host              // src/Host: Functions custom dotnet host projects
-|  |- Shared            // src/Shared: "SharedReference" projects, giving us a way to directly share code without using InternalsVisibleTo
-|  |- Worker            // src/Worker: All the projects that make up our 'framework'
-|     |- Sdk            // src/Worker/Sdk: All the SDK projects
-|     |  |- Sdk         // src/Worker/Sdk/Sdk: Microsoft.Azure.Functions.Worker.Sdk
-|     |  |- Analyzers   // src/Worker/Sdk/Analyzers: Microsoft.Azure.Functions.Worker.Sdk.Analyzers
-|     |  |- Generators  // src/Worker/Sdk/Generators: Microsoft.Azure.Functions.Worker.Sdk.Generators
-|     |- Worker         // src/Worker/Worker: Microsoft.Azure.Functions.Worker
-|     |- Core           // src/Worker/Core: Microsoft.Azure.Functions.Worker.Core
-|     |- Grpc           // src/Worker/Grpc: Microsoft.Azure.Functions.Worker.Grpc
+   |- Extensions        // src/Extensions: All worker extensions (including ApplicationInsights)
+   |- Host              // src/Host: Functions custom dotnet host projects
+   |- Shared            // src/Shared: "SharedReference" projects, giving us a way to directly share code without using InternalsVisibleTo
+   |- Worker            // src/Worker: All the projects that make up our 'framework'
+      |- Sdk            // src/Worker/Sdk: All the SDK projects
+      |  |- Sdk         // src/Worker/Sdk/Sdk: Microsoft.Azure.Functions.Worker.Sdk
+      |  |- Analyzers   // src/Worker/Sdk/Analyzers: Microsoft.Azure.Functions.Worker.Sdk.Analyzers
+      |  |- Generators  // src/Worker/Sdk/Generators: Microsoft.Azure.Functions.Worker.Sdk.Generators
+      |- Worker         // src/Worker/Worker: Microsoft.Azure.Functions.Worker
+      |- Core           // src/Worker/Core: Microsoft.Azure.Functions.Worker.Core
+      |- Grpc           // src/Worker/Grpc: Microsoft.Azure.Functions.Worker.Grpc
 |- test                 // test: all test code here. Mirrors src structure.
 ```
 
