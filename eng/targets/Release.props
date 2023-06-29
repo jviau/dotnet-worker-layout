@@ -43,6 +43,7 @@
     <BuildNumber Condition="'$(BuildNumber)' == ''">$([System.DateTime]::Now.ToString(yyMMdd)).0</BuildNumber>
     <ContinuousIntegrationBuild Condition="'$(TF_BUILD)' == 'true'">true</ContinuousIntegrationBuild>
     <ContinuousIntegrationBuild Condition="'$(ContinuousIntegrationBuild)' == ''">$(CI)</ContinuousIntegrationBuild>
+    <WarningsAsErrors Condition="'$(ContinuousIntegrationBuild)' == 'true'">true</WarningsAsErrors>
 
     <!-- Only set release tag if this is a tag, and not a branch. -->
     <!-- tag must be either 'v{Version}' or {name}-v{Version} for a match -->

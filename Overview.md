@@ -95,6 +95,7 @@ Building off the repo structure, we extensively leverage `Directory.Build` files
 - Applies common CI versioning semantics
 - Common packaging properties and customization
 - Custom targets, ie: `InternalsVisibleTo.targets`, `SharedReferences.targets`
+- **WarningsAsErrors** during CI builds. Code style violations will block PR builds.
 
 ## Dirs.proj
 
@@ -209,21 +210,29 @@ Some naming rules have changed from what we have, primarily non-readonly static 
 
 #### Style Cop
 
-Style cop analyzers have been left out for now. Editorconfig covers almost all of the same functionality, making them less useful these days. The only additional benefit Style cop would offer is stricter XML doc contents verification.
+Style cop analyzers have been left out for now. Editorconfig covers almost all of the same functionality, making them less useful these days. The only additional benefit Style cop would offer is stricter XML doc contents verification and some other minor warnings.
 
+- Warning on consecutive blank newlines.
 - Standard text requirement for some xmldoc summaries:
   - Constructors: `Initializes a new instance of the <see cref={Name} /> {class|struct}.`.
   - Properties: `Gets {or sets} ...`
   - `bool` properties: `Gets {or sets} a value indicating whether ...`
-- `<param>`, `<typeparam>` values all present, in order, not empty, not duplicated.
-- `<return>` value present, not empty.
-- All xmldoc sections wend with a period.
+  - `<param>`, `<typeparam>` values all present, in order, not empty, not duplicated.
+  - `<return>` value present, not empty.
+  - All xmldoc sections wend with a period.
 
 #### Incremental builds
 
 You will notice warnings 'disappear' on a rebuild. This is due to incremental builds. What is happening is on the rebuild, with nothing else changing in your build, the entire compile step is skipped (nothing to do as nothing changed), and such analyzers are not ran. Thus no warnings emitted, even though it still exists. Your IDE should continue to display the warning though.
 
 This will not be an issue on CI builds as we will explicitly pass in `--no-incremental`.
+
+#### Additional Analyzers
+
+These are yet to be investigated:
+
+- [PublicAPIAnalyzers](https://github.com/dotnet/roslyn-analyzers/blob/main/src/PublicApiAnalyzers/Microsoft.CodeAnalysis.PublicApiAnalyzers.md). Lets us validate / catch changes to public API surface. Helps avoid accidental breaking changes.
+- [BannedAPIAnalyzers](https://github.com/dotnet/roslyn-analyzers/blob/main/src/BannedApiAnalyzers/Microsoft.CodeAnalysis.BannedApiAnalyzers.md). Lets us ban specific APIs from being used in our code base.
 
 ### Directory.Package.props
 
