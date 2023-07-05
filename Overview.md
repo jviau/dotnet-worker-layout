@@ -271,3 +271,52 @@ This is optional and only if we find it is better than custom scripts. Overall, 
 - Deprecate `Microsoft.Azure.Functions.Worker.Extensions.Storage` meta-package? Customers can import Blob and Queues independently. This aligns with track 2 SDKs.
 - ApplicationInsights move to `src/extensions/ApplicationInsights` this is an optional "extension" package after all.
   - This sets a precedence of packages in `extensions` without `.Extensions.` in name. Concerns?
+
+## Plan
+
+The plan to roll this out over time is to first start with analyzers in the dotnet worker repo, because this is the most impactful to day-to-day engineering. It will be better to get this in now rather than later. After that, we will create the engineering repo next. We will then add features to engineering repo over time, onboarding the dotnet worker repo to them as they are ready. A lot of the work can be done in parallel, where we can first introduce it to the dotnet worker repo, validate it, then port it to engineering repo.
+
+### Engineering repo
+
+This engineering repo will produce nuget packages which are published to our ADO feed only.
+
+1. Analyzer targets & editorconfig enforcement
+2. Helper targets: `InternalsVisibleTo`, `SharedReferences`, `Traversal`, `Test`, `Release`
+
+#### Editorconfig from package
+
+Delivering an editor config from a package is not effective, as it will only apply to msbuild files. Instead, we have two options:
+
+1. Just trust each repo to manually include the editorconfig
+2. Manually include editorconfig, but also write a task which validates it is 'up-to-date'.
+   1. Should we include a tool which updates it for us? Update it as part of the build?
+
+#### MSBuild targets
+
+Introduce common msbuild props/targets to engineering repo: `InternalsVisibleTo`, `SharedReferences`, `Traversal`, `Test`, `Release`. This will also package up all supporting files.
+
+### Dotnet worker repo
+
+The below work can be done in parallel with the engineering repo, or is dependent on the engineering repo work.
+
+- Introduce new analyzers and editorconfig
+  - Will be manually kept in sync with engineering repo until engineering repo enforces this.
+- Add `global.json` to pin SDK version
+- Add `Directory.Build` files to extract common analyzer-related targets
+- Fix / suppress warnings as appropriate
+- Restructure repo
+- Refactor unit tests to per-project style and using skippable attribute as necessary.
+
+# TODO
+
+- [x] investigate spelling enforcement
+  - No official CI solution. May be able to write our own analyzer via [cspell](https://cspell.org/).
+  - Visual Studio preview has a [spell checker](https://devblogs.microsoft.com/visualstudio/visual-studio-spell-checker-preview-now-available/) as of January 2023.
+- [x] Add enforcement for unit test project per source project
+  - Can be done via a build target. Searches passed on folder convention, errors if a matching `.Test.csproj` is not found.
+- [x] Can release notes changes be enforced?
+  - Could write a task which uses `git` to look for at least 1 commit which edits an appropriate `release_notes.md` in the scope of the PR.
+  - Can have a suppression convention: pushing an empty commit with a specific name to suppress task.
+- [ ] Automating release, look at what host does
+- [x] Plan for how to do this in phases
+- [x] Plan for breaking this into a engineering repo

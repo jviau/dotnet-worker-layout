@@ -3,6 +3,13 @@
 
 namespace Microsoft.Azure.Functions.Worker;
 
-internal class Class1
+/// <summary>
+///
+/// </summary>
+public class Class1
 {
+    /// <summary>
+    /// Gets or sets
+    /// </summary>
+    public string? Property { get; set; }
 }
